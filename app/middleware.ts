@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 export function middleware(request: NextRequest) {
-    const geo = request?.geo;
+    const geo = (request as NextRequest & { geo?: { country?: string } }).geo;
     const country = geo?.country || 'US';
 
     const response = NextResponse.next();
