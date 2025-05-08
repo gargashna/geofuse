@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { cookies, headers } from 'next/headers';
 import "./globals.css";
 
 const geistSans = Geist({
@@ -22,13 +23,22 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const country = headers().get('x-country') || 'US';
+  const currency = country === 'IN' ? '₹' : '$';
+  const lang = country === 'IN' ? 'hi' : 'en';
+
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+    <html lang={lang}>
+      <body>
+        <header>
+          <h1>🌍 GeoFuse</h1>
+          <p>Country: {country}</p>
+          <p>Currency: {currency}</p>
+        </header>
+        <main>{children}</main>
       </body>
     </html>
   );
+
 }
+
