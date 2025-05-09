@@ -25,16 +25,22 @@ export  default async function RootLayout({
 }>) {
   const headersList = await headers();
   const country = headersList.get('x-country') || 'US';
-  const currency = country === 'IN' ? '₹' : '$';
-  const lang = country === 'IN' ? 'hi' : 'en';
+
+
+ const isIndia = country === 'IN';
+  const currency = isIndia ? '₹' : '$';
+  const lang = isIndia ? 'hi' : 'en';
+  const greeting = isIndia ? 'नमस्ते!' : 'Hello!';
+  const price = isIndia ? '₹999' : '$9.99';
 
   return (
     <html lang={lang}>
-      <body>
-        <header>
-          <h1>🌍 GeoFuse</h1>
+      <body className="p-6">
+        <header className="mb-4">
+          <h1 className="text-2xl font-bold">🌍 GeoFuse</h1>
           <p>Country: {country}</p>
-          <p>Currency: {currency}</p>
+          <p>Greeting: {greeting}</p>
+          <p>Price: {price}</p>
         </header>
         <main>{children}</main>
       </body>
