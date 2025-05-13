@@ -23,8 +23,21 @@ export  default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headersList = await headers();
-  const country = headersList.get('x-country') || 'US';
+  const headersList = await  headers();
+  for (const [key, value] of headersList.entries()) {
+    console.log('heres the header list',`${key}: ${value}`);
+  }
+  const referer = headersList.get('referer') || 'http://localhost:3000';
+  const url = new URL(referer);
+
+  const queryCountry = url.searchParams.get('country') || 'US';
+  
+  console.log('queryCountry', queryCountry)
+
+  
+  const headerCountry = headersList.get('x-country') || 'US';
+  console.log('headerCountry', headerCountry)
+  const country = queryCountry || headerCountry;
 
 
  const isIndia = country === 'IN';
